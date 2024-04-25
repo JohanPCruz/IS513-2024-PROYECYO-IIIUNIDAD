@@ -4,7 +4,7 @@ import 'Pantallas/crea_recetas.dart'; // Importa la pantalla principal
 void main() {
   runApp(MyApp());
 }
-
+//hola
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
