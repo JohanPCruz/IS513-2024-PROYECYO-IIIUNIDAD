@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -122,4 +122,33 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}*/
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'; // Importa el paquete Firebase Core
+import 'package:flavor_fusion/firebase_options.dart';
+
+
+void main() async {
+  // Inicializa Firebase antes de ejecutar la aplicación
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
 }
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Firebase App Recetas',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MainScreen(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
+    );
+  }
+}
+
+//Recomendaria no colocar mas informacion en el manin.dart con esto es suficiente
