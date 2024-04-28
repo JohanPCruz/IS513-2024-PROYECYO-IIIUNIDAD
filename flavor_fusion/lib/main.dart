@@ -122,7 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}*/
+}
+*/
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Importa el paquete Firebase Core
