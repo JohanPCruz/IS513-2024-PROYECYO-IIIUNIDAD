@@ -1,4 +1,5 @@
 
+import 'package:flavor_fusion/axel/login.dart';
 import 'package:flavor_fusion/johan/design_page_main.dart';
 import 'package:flavor_fusion/johan/main_page.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen2(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
+      home:  Login(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
     );
   }
 }
