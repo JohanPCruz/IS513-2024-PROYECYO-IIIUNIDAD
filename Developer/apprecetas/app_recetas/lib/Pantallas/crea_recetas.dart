@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app_recetas/Recursos/campos.dart';
 
@@ -19,9 +20,31 @@ class _CreaRecetasState extends State<CreaRecetas> {
   String? _dificultadSeleccionada; 
   String? _categoriaSeleccionada;
 
-  String _getTipoInicial() {
-  return _categoriaSeleccionada == 'Postres' ? 'Porciones' : 'Personas';
-}
+  void _guardarRecetas(BuildContext context) async {
+      String nombre = _nameController.text;
+      String descripcion = _descripcionController.text;
+      String dificultad = _dificultadSeleccionada.toString();
+      String categoria= _categoriaSeleccionada.toString();
+      String unidadTiempo = _unidadTiempoSeleccionada.toString();
+      String pop = _porcionesController.text;
+      String tiempo = _tiempoCocinadoController.text;
+
+      FirebaseFirestore.instance.collection('colecciones').add({
+        'Nombre': nombre,
+        'Categoria': categoria,
+        'Descripcion': descripcion,
+        'Dificultad': dificultad,
+        'TiempoTotalNum': tiempo,
+        'Tiempo': unidadTiempo,
+        'PoP': pop,
+
+      }).then((value) {
+        Navigator.pop(
+          context
+        );
+      }).catchError((error) => print("Error al añadir receta: $error"));
+    }
+
 
   @override
   Widget build(BuildContext context) {
@@ -330,20 +353,9 @@ class _CreaRecetasState extends State<CreaRecetas> {
                   Container(
                     alignment: Alignment.center,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Aquí puedes agregar la lógica para crear la receta
-                        }
-                      },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.add),
-                          SizedBox(width: 8),
-                          Text('Crear Receta'),
-                        ],
-                      ),
-                    ),
+                onPressed: () => _guardarRecetas(context),
+                child: const Text('Guardar Receta'),
+              ),
                   ),
                 ],
               ),

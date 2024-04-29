@@ -1,0 +1,29 @@
+{
+    "project_info": {
+      "project_number": "30144467573",
+      "project_id": "proyecto-app-recetas",
+      "storage_bucket": "proyecto-app-recetas.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:30144467573:android:0148110787f37a4a7b9e3c",
+          "android_client_info": {
+            "package_name": "com.flavor_fusion"
+          }
+        },
+        "oauth_client": [],
+        "api_key": [
+          {
+            "current_key": "AIzaSyCdacrEAugmRrxQSjLmMC1_uRLmhpR88vQ"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": []
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

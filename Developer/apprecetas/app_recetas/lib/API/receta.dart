@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_recetas/API/recurso_api.dart';
 
 class Recetas extends StatefulWidget {
   @override
@@ -49,7 +48,7 @@ class _RecetasState extends State<Recetas> {
             
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _submitRecipe,
+              onPressed: () {},
               child: const Text('Enviar Receta'),
             ),
           ],
@@ -57,16 +56,4 @@ class _RecetasState extends State<Recetas> {
       ),
     );
   }
-
-  void _submitRecipe() {
-    ApiService.submitRecipe(
-      apiKey: 'vHwuVEqAGqUnErEHjK1XZ1iuFMujZU8w', 
-      title: _nameController.text,
-      ingredients: _ingredientesController.text,
-      instructions: _instruccionesController.text,
-      cookingTime: int.tryParse(_tiempoCocinadoController.text) ?? 0,
-    );
-  }
 }
-
-

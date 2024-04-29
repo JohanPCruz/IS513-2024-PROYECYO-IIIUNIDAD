@@ -1,10 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'Pantallas/crea_recetas.dart'; // Importa la pantalla principal
+import 'Pantallas/crea_recetas.dart'; 
 
-void main() {
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
-//hola1
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
