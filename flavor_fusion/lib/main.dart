@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
+      home: const HomeScreen2(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
     );
   }
 }
