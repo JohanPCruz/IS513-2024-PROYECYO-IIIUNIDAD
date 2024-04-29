@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flavor_fusion/carlos/Recursos/campos.dart';
+import 'package:flavor_fusion/johan/design_page_main.dart';
 import 'package:flutter/material.dart';
-import 'package:app_recetas/Recursos/campos.dart';
 
 class CreaRecetas extends StatefulWidget {
   @override
@@ -325,11 +325,17 @@ class _CreaRecetasState extends State<CreaRecetas> {
                     ),
                   ),
                   const SizedBox(height: 10),
+                  
                   // Boton para Crear la Receta
                   Container(
                     alignment: Alignment.center,
                     child: ElevatedButton(
-                onPressed: () {}, 
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen2()),
+                  );
+                }, 
                 //=> _guardarRecetas(context),
                 child: const Text('Guardar Receta'),
               ),

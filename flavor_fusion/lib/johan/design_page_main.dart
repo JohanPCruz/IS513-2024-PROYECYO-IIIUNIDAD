@@ -1,3 +1,4 @@
+import 'package:flavor_fusion/carlos/Pantallas/crea_recetas.dart';
 import 'package:flutter/material.dart';
 
 //Pantalla de muestra de diseno de pantalla de app de recetas
@@ -11,6 +12,17 @@ class HomeScreen2 extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Inicio'),
         actions: [
+            const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CreaRecetas()),
+                  );
+                },
+                child: const Text('¡A Crear una Nueva Receta!'),
+              ),
+
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
