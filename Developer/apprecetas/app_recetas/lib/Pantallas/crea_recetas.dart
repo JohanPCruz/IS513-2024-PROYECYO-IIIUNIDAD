@@ -30,8 +30,7 @@ class _CreaRecetasState extends State<CreaRecetas> {
         title: const Text('Crear Receta'),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          child: Column(
+        child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -353,7 +352,6 @@ class _CreaRecetasState extends State<CreaRecetas> {
             ],
         ),
       ),
-      ),
-    );
+      );
   }
 }

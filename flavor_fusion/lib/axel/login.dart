@@ -105,11 +105,26 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              // Agregar la imagen en un contenedor
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/Logo.PNG'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
               ElevatedButton(
                 onPressed: () => _signInWithGoogle(context),
                 child: const Text('Iniciar sesión con Google'),
               ),
-              const SizedBox(height: 10), // Separación entre los botones
+              const SizedBox(height: 30), // Separación entre los botones
               ElevatedButton(
                 onPressed: () => _signOut(context), // Llamar al método _signOut
                 child: const Text('Cerrar sesión'),
