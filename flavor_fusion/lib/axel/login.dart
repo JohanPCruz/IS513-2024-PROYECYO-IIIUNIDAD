@@ -1,6 +1,8 @@
+import 'package:flavor_fusion/johan/design_page_main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart'; 
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -30,25 +32,31 @@ class _LoginState extends State<Login> {
         await _auth.signInWithCredential(credential);
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Inicio de sesión exitoso"),
             duration: Duration(seconds: 2),
           ),
         );
+        // Navegar a HomeScreen2 al iniciar sesión correctamente
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen2()),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Inicio de sesión con Google cancelado."),
             duration: Duration(seconds: 2),
           ),
         );
       }
+      
       // Navegar a la siguiente pantalla o realizar acciones adicionales después del inicio de sesión exitoso.
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Error de inicio de sesión: $e"),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
       // Manejar errores de inicio de sesión, como credenciales incorrectas o cuenta no existente.
@@ -62,14 +70,14 @@ class _LoginState extends State<Login> {
         await _auth.signOut();
         await _googleSignIn.signOut(); // Opcional: cerrar sesión de Google también
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("Sesión cerrada exitosamente"),
             duration: Duration(seconds: 2),
           ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("No hay ninguna sesión iniciada"),
             duration: Duration(seconds: 2),
           ),
@@ -79,7 +87,7 @@ class _LoginState extends State<Login> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Error al cerrar sesión: $e"),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -89,22 +97,25 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Inicio de sesión'),
+        title: const Text('Inicio de sesión'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () => _signInWithGoogle(context),
-              child: Text('Iniciar sesión con Google'),
-            ),
-            ElevatedButton(
-              onPressed: () => _signOut(context), // Llamar al método _signOut
-              child: Text('Cerrar sesión'),
-            ),
-          ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () => _signInWithGoogle(context),
+                child: const Text('Iniciar sesión con Google'),
+              ),
+              const SizedBox(height: 10), // Separación entre los botones
+              ElevatedButton(
+                onPressed: () => _signOut(context), // Llamar al método _signOut
+                child: const Text('Cerrar sesión'),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Comentarios extends StatefulWidget {
+  const Comentarios({super.key});
+
   @override
   _ComentariosState createState() => _ComentariosState();
 }
