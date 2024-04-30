@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app_recetas/Recursos/campos.dart';
 
 class CreaRecetas extends StatefulWidget {
+  const CreaRecetas({super.key});
+
   @override
   _CreaRecetasState createState() => _CreaRecetasState();
 }

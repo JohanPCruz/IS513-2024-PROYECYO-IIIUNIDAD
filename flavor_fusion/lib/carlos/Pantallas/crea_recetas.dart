@@ -1,8 +1,11 @@
 import 'package:flavor_fusion/carlos/Recursos/campos.dart';
 import 'package:flavor_fusion/johan/design_page_main.dart';
+import 'package:flavor_fusion/johan/main_page.dart';
 import 'package:flutter/material.dart';
 
 class CreaRecetas extends StatefulWidget {
+  const CreaRecetas({super.key});
+
   @override
   _CreaRecetasState createState() => _CreaRecetasState();
 }
