@@ -48,6 +48,7 @@ class _CreaRecetasState extends State<CreaRecetas> {
                 ),
               ),
             
+            const Divider(),
             Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
