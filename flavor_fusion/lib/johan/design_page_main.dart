@@ -55,7 +55,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.green, // Color de ítem seleccionado
+        selectedItemColor: Colors.orange, // Color de ítem seleccionado
         unselectedItemColor: Colors.grey, // Color de ítem no seleccionado
         currentIndex: _selectedIndex, // Índice actualmente seleccionado
         onTap: (int index) {

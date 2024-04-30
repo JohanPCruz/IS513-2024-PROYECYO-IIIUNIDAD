@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -110,8 +110,8 @@ class _LoginState extends State<Login> {
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 alignment: Alignment.topCenter,
                 child: Container(
-                  width: 200,
-                  height: 200,
+                  width: 400,
+                  height: 400,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/Logo.PNG'),
