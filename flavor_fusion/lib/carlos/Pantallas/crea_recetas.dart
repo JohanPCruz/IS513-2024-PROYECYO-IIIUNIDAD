@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flavor_fusion/carlos/Recursos/campos.dart';
-import 'package:flavor_fusion/johan/design_page_main.dart';
 import 'package:flutter/material.dart';
 
 class CreaRecetas extends StatefulWidget {
@@ -30,14 +30,25 @@ class _CreaRecetasState extends State<CreaRecetas> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: const AssetImage('assets/Logo.PNG'),
-              fit: BoxFit.fitWidth,
-              colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.3), BlendMode.dstATop),
-            ),
-          ),
-          child: Padding(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/Logo.PNG'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
+            
+            Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
               key: _formKey,
@@ -325,17 +336,11 @@ class _CreaRecetasState extends State<CreaRecetas> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  
                   // Boton para Crear la Receta
                   Container(
                     alignment: Alignment.center,
                     child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen2()),
-                  );
-                }, 
+                onPressed: () {}, 
                 //=> _guardarRecetas(context),
                 child: const Text('Guardar Receta'),
               ),
@@ -344,7 +349,9 @@ class _CreaRecetasState extends State<CreaRecetas> {
               ),
             ),
           ),
+            ],
         ),
+      ),
       ),
     );
   }

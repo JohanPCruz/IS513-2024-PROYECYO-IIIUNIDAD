@@ -30,14 +30,25 @@ class _CreaRecetasState extends State<CreaRecetas> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: const AssetImage('assets/Logo.PNG'),
-              fit: BoxFit.fitWidth,
-              colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.3), BlendMode.dstATop),
-            ),
-          ),
-          child: Padding(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/Logo.PNG'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
+            
+            Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
               key: _formKey,
@@ -338,7 +349,9 @@ class _CreaRecetasState extends State<CreaRecetas> {
               ),
             ),
           ),
+            ],
         ),
+      ),
       ),
     );
   }
