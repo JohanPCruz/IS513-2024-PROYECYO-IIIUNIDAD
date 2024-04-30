@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Recetas extends StatefulWidget {
+  const Recetas({super.key});
+
   @override
   _RecetasState createState() => _RecetasState();
 }

@@ -4,9 +4,9 @@ class EditorCamposIngredientes extends StatefulWidget {
   final List<TextEditingController> ingredientesControllers;
 
   const EditorCamposIngredientes({
-    Key? key,
+    super.key,
     required this.ingredientesControllers,
-  }) : super(key: key);
+  });
 
   @override
   _EditorCamposIngredientesState createState() => _EditorCamposIngredientesState();
@@ -94,9 +94,9 @@ class EditorCamposInstrucciones extends StatefulWidget {
   final List<TextEditingController> instruccionesControllers;
 
   const EditorCamposInstrucciones({
-    Key? key,
+    super.key,
     required this.instruccionesControllers,
-  }) : super(key: key);
+  });
 
   @override
   _EditorCamposInstruccionesState createState() => _EditorCamposInstruccionesState();
