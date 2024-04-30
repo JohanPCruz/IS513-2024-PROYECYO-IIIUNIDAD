@@ -3,19 +3,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 
-class FeedbackPage extends StatefulWidget {
+class Comentarios extends StatefulWidget {
   @override
-  _FeedbackPageState createState() => _FeedbackPageState();
+  _ComentariosState createState() => _ComentariosState();
 }
 
-class _FeedbackPageState extends State<FeedbackPage> {
+class _ComentariosState extends State<Comentarios> {
   final _formKey = GlobalKey<FormState>();
   final _firestore = FirebaseFirestore.instance;
   String _comment = "";
-  double _rating = 3.0;
+  double _rating = 0.0;
 
-  void _submitFeedback() {
-    _formKey.currentState?.save(); // Usamos el operador de acceso condicional (?.) aquí
+  void _submitComentario() {
+    _formKey.currentState?.save(); 
   if (_formKey.currentState?.validate() ?? false) {
     _firestore.collection('feedback').add({
       'comment': _comment,
@@ -71,7 +71,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               },
             ),
             ElevatedButton(
-              onPressed: _submitFeedback,
+              onPressed: _submitComentario,
               child: Text('Enviar'),
             ),
           ],

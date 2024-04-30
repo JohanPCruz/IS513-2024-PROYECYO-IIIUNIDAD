@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FeedbackPage(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
+      home: Login(), //aqui debe de ir la pagina de inicio de sesion para que sea la primera que salga al abrir el app la primera vez
     );
   }
 }
