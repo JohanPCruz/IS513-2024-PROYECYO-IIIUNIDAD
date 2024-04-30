@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -10,6 +9,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  // Método para verificar si hay una sesión iniciada
+  bool isUserSignedIn() {
+    return _auth.currentUser != null;
+  }
 
   // Método para iniciar sesión con Google
   Future<void> _signInWithGoogle(BuildContext context) async {
@@ -54,14 +58,23 @@ class _LoginState extends State<Login> {
   // Método para cerrar sesión
   Future<void> _signOut(BuildContext context) async {
     try {
-      await _auth.signOut();
-      await _googleSignIn.signOut(); // Opcional: cerrar sesión de Google también
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Sesión cerrada exitosamente"),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      if (isUserSignedIn()) {
+        await _auth.signOut();
+        await _googleSignIn.signOut(); // Opcional: cerrar sesión de Google también
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Sesión cerrada exitosamente"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("No hay ninguna sesión iniciada"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
