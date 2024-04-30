@@ -1,4 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.flavorfusion.flavor_fusion">
+
+    <!-- Añade el permiso para acceder a la ubicación precisa del dispositivo -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:label="flavor_fusion"
         android:name="${applicationName}"
