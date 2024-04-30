@@ -30,7 +30,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
         title: const Text('Flavor Fusion!'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.person_pin),
+            icon: const Icon(Icons.account_circle),
             onPressed: () {
               Navigator.push(
                 context,

@@ -21,6 +21,31 @@ class _CreaRecetasState extends State<CreaRecetas> {
   String? _dificultadSeleccionada; 
   String? _categoriaSeleccionada;
 
+  // void _guardarRecetas(BuildContext context) async {
+  //     String nombre = _nameController.text;
+  //     String descripcion = _descripcionController.text;
+  //     String dificultad = _dificultadSeleccionada.toString();
+  //     String categoria= _categoriaSeleccionada.toString();
+  //     String unidadTiempo = _unidadTiempoSeleccionada.toString();
+  //     String pop = _porcionesController.text;
+  //     String tiempo = _tiempoCocinadoController.text;
+
+  //     FirebaseFirestore.instance.collection('colecciones').add({
+  //       'Nombre': nombre,
+  //       'Categoria': categoria,
+  //       'Descripcion': descripcion,
+  //       'Dificultad': dificultad,
+  //       'TiempoTotalNum': tiempo,
+  //       'Tiempo': unidadTiempo,
+  //       'PoP': pop,
+
+  //     }).then((value) {
+  //       Navigator.pop(
+  //         context
+  //       );
+  //     }).catchError((error) => print("Error al añadir receta: $error"));
+  //   }
+
 
 
   @override
