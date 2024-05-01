@@ -9,30 +9,19 @@ class Comentarios extends StatefulWidget {
   @override
   _ComentariosState createState() => _ComentariosState();
 }
+
 class _ComentariosState extends State<Comentarios> {
   final _formKey = GlobalKey<FormState>();
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   String _comment = "";
   double _rating = 0.0;
-  late User _user;
+  User? _user;
 
   @override
   void initState() {
     super.initState();
-    // Verificar si hay un usuario autenticado antes de llamar a _getUserData()
-    if (_auth.currentUser != null) {
-      _getUserData();
-    }
-  }
-
-  void _getUserData() {
-    final user = _auth.currentUser;
-    if (user != null) {
-      setState(() {
-        _user = user;
-      });
-    }
+    _user = _auth.currentUser;
   }
 
   void _submitComentario() {
@@ -41,9 +30,9 @@ class _ComentariosState extends State<Comentarios> {
       _firestore.collection('feedback').add({
         'comment': _comment,
         'rating': _rating,
-        'userId': _user.uid, // Añadir el ID del usuario al comentario
-        'userName': _user.displayName, // Añadir el nombre del usuario al comentario
-        'userPhotoUrl': _user.photoURL, // Añadir la URL de la foto de perfil del usuario al comentario
+        'userId': _user?.uid,
+        'userName': _user?.displayName,
+        'userPhotoUrl': _user?.photoURL,
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -52,137 +41,137 @@ class _ComentariosState extends State<Comentarios> {
           behavior: SnackBarBehavior.floating,
         ),
       );
+      _formKey.currentState?.reset();
+      setState(() {
+        _comment = '';
+        _rating = 0.0;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Deja tu comentario'),
-      ),
+      
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Visibility(
-          visible: _user != null,
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const Text(
-                  'Opiniones de los usuarios',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Opiniones de los usuarios',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: _firestore.collection('feedback').snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      final comments = snapshot.data!.docs.reversed.toList();
-                      return ListView.builder(
-                        itemCount: comments.length,
-                        itemBuilder: (context, index) {
-                          final comment = comments[index];
-                          final commentText = comment['comment'];
-                          final rating = comment['rating'];
-                          final data = comment.data() as Map<String, dynamic>?;
-                          final userName = data?['userName'] ?? 'Usuario desconocido';
-                          final userPhotoUrl = data?['userPhotoUrl'] ?? '';
-
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    RatingBarIndicator(
-                                      rating: rating.toDouble(),
-                                      itemBuilder: (context, index) => const Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      itemCount: 5,
-                                      itemSize: 20.0,
-                                      unratedColor: Colors.grey[300]!,
-                                    ),
-                                    Text(
-                                      'Hace ${comments.length - index} días',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 4),
-                                ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage: NetworkImage(userPhotoUrl),
-                                  ),
-                                  title: Text(userName),
-                                ),
-                                Text(
-                                  commentText,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const Divider(),
-                              ],
-                            ),
-                          );
-                        },
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _firestore.collection('feedback').snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  ),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'Comentario'),
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Por favor ingresa un comentario';
                     }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _comment = value ?? "";
+                    final comments = snapshot.data!.docs.reversed.toList();
+                    return ListView.builder(
+                      itemCount: comments.length,
+                      itemBuilder: (context, index) {
+                        final comment = comments[index];
+                        final commentText = comment['comment'];
+                        final rating = comment['rating'];
+                        final data = comment.data() as Map<String, dynamic>?;
+                        final userName = data?['userName'] ?? 'Usuario desconocido';
+                        final userPhotoUrl = data?['userPhotoUrl'] ?? '';
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RatingBarIndicator(
+                                    rating: rating.toDouble(),
+                                    itemBuilder: (context, index) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    itemCount: 5,
+                                    itemSize: 20.0,
+                                    unratedColor: Colors.grey[300]!,
+                                  ),
+                                  Text(
+                                    'Hace ${comments.length - index} días',
+                                    style: TextStyle(
+                                      color: Colors.grey[600],
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: userPhotoUrl.isNotEmpty ? NetworkImage(userPhotoUrl) : AssetImage('assets/placeholder_image.png') as ImageProvider<Object>,
+                                ),
+                                title: Text(userName),
+                              ),
+                              Text(
+                                commentText,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                              const Divider(),
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
-                RatingBar.builder(
-                  initialRating: _rating,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  itemBuilder: (context, _) => const Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {
-                    setState(() {
-                      _rating = rating;
-                    });
-                  },
+              ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Comentario'),
+                validator: (value) {
+                  if (value?.isEmpty ?? true) {
+                    return 'Por favor ingresa un comentario';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  _comment = value ?? "";
+                },
+              ),
+              RatingBar.builder(
+                initialRating: _rating,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
                 ),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: _user != null ? _submitComentario : null,
-                  child: const Text('Enviar'),
-                ),
-              ],
-            ),
+                onRatingUpdate: (rating) {
+                  setState(() {
+                    _rating = rating;
+                  });
+                },
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: _user != null ? _submitComentario : null,
+                child: const Text('Enviar'),
+              ),
+            ],
           ),
         ),
       ),
