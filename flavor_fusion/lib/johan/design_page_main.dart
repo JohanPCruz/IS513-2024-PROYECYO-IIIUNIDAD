@@ -1,3 +1,4 @@
+import 'package:flavor_fusion/axel/busqueda.dart';
 import 'package:flutter/material.dart';
 
 // Importa aquí tus diferentes páginas
@@ -18,7 +19,7 @@ class _HomeScreen2State extends State<HomeScreen2> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    const HomeScreen(),
+     RecipeSearchScreen(),
     const CreaRecetas(),
     const Comentarios(),
   ];

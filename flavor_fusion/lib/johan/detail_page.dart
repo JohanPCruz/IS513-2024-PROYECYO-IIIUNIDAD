@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,7 @@ class RecipeDetailScreen extends StatelessWidget {
         return {
           'title': meal['strMeal'],
           'image': meal['strMealThumb'],
-          'instructions': meal['strInstructions'],
+          'instructions': await translateText(meal['strInstructions']),
           // Puedes agregar más detalles según lo necesites
         };
       } else {
@@ -28,6 +29,40 @@ class RecipeDetailScreen extends StatelessWidget {
       }
     } else {
       throw Exception('Failed to load recipe details');
+    }
+  }
+
+  Future<String> translateText(String text) async {
+    final int maxQueryLength = 500;
+    List<String> fragments = [];
+
+    // Divide el texto en fragmentos más pequeños
+    for (int i = 0; i < text.length; i += maxQueryLength) {
+      fragments.add(text.substring(i, i + maxQueryLength < text.length ? i + maxQueryLength : text.length));
+    }
+
+    List<Future<String>> translationFutures = [];
+
+    // Crea una lista de futuros de traducción
+    for (String fragment in fragments) {
+      translationFutures.add(_translateFragment(fragment));
+    }
+
+    // Espera a que todos los fragmentos se traduzcan y luego une los resultados
+    List<String> translatedFragments = await Future.wait(translationFutures);
+    return translatedFragments.join();
+  }
+
+  Future<String> _translateFragment(String fragment) async {
+    final response = await http.get(
+      Uri.parse('https://api.mymemory.translated.net/get?q=$fragment&langpair=en|es'),
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      return jsonResponse['responseData']['translatedText'];
+    } else {
+      throw Exception('Failed to translate text');
     }
   }
 
@@ -80,3 +115,4 @@ class RecipeDetailScreen extends StatelessWidget {
     );
   }
 }
+
