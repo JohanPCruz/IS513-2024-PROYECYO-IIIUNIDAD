@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Comentarios extends StatefulWidget {
-  const Comentarios({super.key});
+  const Comentarios({Key? key});
 
   @override
   _ComentariosState createState() => _ComentariosState();
@@ -12,15 +13,26 @@ class Comentarios extends StatefulWidget {
 class _ComentariosState extends State<Comentarios> {
   final _formKey = GlobalKey<FormState>();
   final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   String _comment = "";
   double _rating = 0.0;
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _auth.currentUser;
+  }
 
   void _submitComentario() {
-    _formKey.currentState?.save(); 
+    _formKey.currentState?.save();
     if (_formKey.currentState?.validate() ?? false) {
       _firestore.collection('feedback').add({
         'comment': _comment,
         'rating': _rating,
+        'userId': _user?.uid,
+        'userName': _user?.displayName,
+        'userPhotoUrl': _user?.photoURL,
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -29,15 +41,18 @@ class _ComentariosState extends State<Comentarios> {
           behavior: SnackBarBehavior.floating,
         ),
       );
+      _formKey.currentState?.reset();
+      setState(() {
+        _comment = '';
+        _rating = 0.0;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Deja tu comentario'),
-      ),
+      
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
@@ -69,6 +84,10 @@ class _ComentariosState extends State<Comentarios> {
                         final comment = comments[index];
                         final commentText = comment['comment'];
                         final rating = comment['rating'];
+                        final data = comment.data() as Map<String, dynamic>?;
+                        final userName = data?['userName'] ?? 'Usuario desconocido';
+                        final userPhotoUrl = data?['userPhotoUrl'] ?? '';
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Column(
@@ -97,6 +116,12 @@ class _ComentariosState extends State<Comentarios> {
                                 ],
                               ),
                               const SizedBox(height: 4),
+                              ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage: userPhotoUrl.isNotEmpty ? NetworkImage(userPhotoUrl) : AssetImage('assets/placeholder_image.png') as ImageProvider<Object>,
+                                ),
+                                title: Text(userName),
+                              ),
                               Text(
                                 commentText,
                                 style: const TextStyle(
@@ -143,7 +168,7 @@ class _ComentariosState extends State<Comentarios> {
               ),
               const SizedBox(height: 8),
               ElevatedButton(
-                onPressed: _submitComentario,
+                onPressed: _user != null ? _submitComentario : null,
                 child: const Text('Enviar'),
               ),
             ],
