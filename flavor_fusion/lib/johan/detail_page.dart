@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class RecipeDetailScreen extends StatelessWidget {
   final String recipeId;
@@ -6,22 +8,27 @@ class RecipeDetailScreen extends StatelessWidget {
   const RecipeDetailScreen({Key? key, required this.recipeId}) : super(key: key);
 
   Future<Map<String, dynamic>> _fetchRecipeDetails() async {
-    // Simulando datos de la receta
-    return {
-      'title': 'Sopa de Lentejas Rojas con Pollo y Nabos',
-      'image': 'https://img.spoonacular.com/recipes/715415-312x231.jpg',
-      'calories': 350,
-      'ingredients': [
-        '1 taza de lentejas rojas',
-        '2 pechugas de pollo',
-        '2 nabos',
-        'Sal y pimienta al gusto',
-      ],
-      'instructions': '1. Hierva las lentejas en agua. 2. Agregue el pollo y los nabos picados. 3. Sazone con sal y pimienta. 4. Cocine hasta que el pollo esté listo.',
-      'servings': 4,
-      'readyInMinutes': 30,
-      'summary': 'Esta deliciosa sopa es abundante y saludable, perfecta para una noche acogedora.'
-    };
+    final response = await http.get(
+      Uri.parse('https://www.themealdb.com/api/json/v1/1/lookup.php?i=$recipeId'),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      final List<dynamic> meals = data['meals'];
+      if (meals != null && meals.isNotEmpty) {
+        final meal = meals[0];
+        return {
+          'title': meal['strMeal'],
+          'image': meal['strMealThumb'],
+          'instructions': meal['strInstructions'],
+          // Puedes agregar más detalles según lo necesites
+        };
+      } else {
+        throw Exception('Recipe not found');
+      }
+    } else {
+      throw Exception('Failed to load recipe details');
+    }
   }
 
   @override
@@ -56,48 +63,12 @@ class RecipeDetailScreen extends StatelessWidget {
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const Text(
-                      'Descripción:',
+                      'Instrucciones:',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                     Text(
-                      '${recipeDetails['summary']}',
+                    Text(
+                      '${recipeDetails['instructions']}',
                       style: const TextStyle(fontSize: 18),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Rendimiento: ${recipeDetails['servings']} porciones',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Tiempo de preparación: ${recipeDetails['readyInMinutes']} minutos',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Calorías: ${recipeDetails['calories']}',
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Ingredientes:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: (recipeDetails['ingredients'] as List<dynamic>).map((ingredient) {
-                        return Text('- $ingredient');
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Instrucciones de preparación:',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      '${recipeDetails['instructions'] ?? "No hay instrucciones disponibles"}',
-                      style: const TextStyle(fontSize: 16),
                     ),
                   ],
                 ),
