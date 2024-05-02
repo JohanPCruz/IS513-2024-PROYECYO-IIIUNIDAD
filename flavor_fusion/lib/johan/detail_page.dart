@@ -1,46 +1,28 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
 
 class RecipeDetailScreen extends StatelessWidget {
   final String recipeId;
 
-  const RecipeDetailScreen({super.key, required this.recipeId});
+  const RecipeDetailScreen({Key? key, required this.recipeId}) : super(key: key);
 
   Future<Map<String, dynamic>> _fetchRecipeDetails() async {
-  const apiKey = 'fcb7962ac7b8416a87956fc90c3dc679';
-
-  final response = await http.get(
-    Uri.parse('https://api.spoonacular.com/recipes/$recipeId/information?apiKey=$apiKey'),
-  );
-
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> data = json.decode(response.body);
-
-    // Obtengo la lista de ingredientes
-    final List<dynamic> extendedIngredients = data['extendedIngredients'];
-
-    // Mapeo la lista de ingredientes y extrae el nombre de cada ingrediente
-    final List ingredients = extendedIngredients.map((ingredient) {
-      return ingredient['original'];
-    }).toList();
-
+    // Simulando datos de la receta
     return {
-      'title': data['title'],
-      'image': data['image'],
-      'calories': data['calories'],
-      'ingredients': ingredients,
-      'instructions': data['instructions'],
-      'servings': data['servings'],
-      'readyInMinutes': data['readyInMinutes'],
-      'summary': data['summary']
+      'title': 'Sopa de Lentejas Rojas con Pollo y Nabos',
+      'image': 'https://img.spoonacular.com/recipes/715415-312x231.jpg',
+      'calories': 350,
+      'ingredients': [
+        '1 taza de lentejas rojas',
+        '2 pechugas de pollo',
+        '2 nabos',
+        'Sal y pimienta al gusto',
+      ],
+      'instructions': '1. Hierva las lentejas en agua. 2. Agregue el pollo y los nabos picados. 3. Sazone con sal y pimienta. 4. Cocine hasta que el pollo esté listo.',
+      'servings': 4,
+      'readyInMinutes': 30,
+      'summary': 'Esta deliciosa sopa es abundante y saludable, perfecta para una noche acogedora.'
     };
-  } else {
-    throw Exception('Error al cargar los detalles de la receta');
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +56,7 @@ class RecipeDetailScreen extends StatelessWidget {
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const Text(
-                      'Descripcion:',
+                      'Descripción:',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                      Text(
@@ -83,11 +65,11 @@ class RecipeDetailScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Rendira para: ${recipeDetails['servings']} personas',
+                      'Rendimiento: ${recipeDetails['servings']} porciones',
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Tiempo preparacion: ${recipeDetails['readyInMinutes']} minutos',
+                      'Tiempo de preparación: ${recipeDetails['readyInMinutes']} minutos',
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 20),

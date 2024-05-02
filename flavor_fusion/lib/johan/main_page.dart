@@ -1,94 +1,108 @@
 import 'dart:convert';
-import 'package:flavor_fusion/johan/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-
+import 'detail_page.dart'; // Importa la pantalla de detalle
 
 class HomeScreen extends StatelessWidget {
-  // ignore: use_key_in_widget_constructors
   const HomeScreen({Key? key});
 
-  Future<List<Map<String, dynamic>>> _fetchRecipes() async {
-    const apiKey = 'fcb7962ac7b8416a87956fc90c3dc679';
-    const category = 'pizza'; 
-
-    //https://api.spoonacular.com/recipes/informationBulk?&apiKey=efc260613de44dd7b58f7a0e37600e17&ids=715538,716429?
-    //https://api.spoonacular.com/recipes/715538/information&apiKey=fcb7962ac7b8416a87956fc90c3dc679
-
-    final response = await http.get(
-      Uri.parse('https://api.spoonacular.com/recipes/complexSearch?apiKey=$apiKey&query=$category'),
-    );
-
-    if (response.statusCode == 200) {
-      final List<dynamic>? data = json.decode(response.body)['results'];
-      List<Map<String, dynamic>> recipes = [];
-      if (data != null) {
-        // ignore: avoid_function_literals_in_foreach_calls
-        data.forEach((recipe) {
-          final recipeTitle = recipe['title'];
-          final recipeImage = recipe['image'];
-          if (recipeTitle != null && recipeImage != null) {
-            recipes.add({
-              'title': recipeTitle,
-              'image': recipeImage,
-              'id': recipe['id'].toString(),
-            });
-          }
-        });
+  List<Map<String, dynamic>> _getRecipes() {
+    return [
+      {
+        "id": 715415,
+        "title": "Sopa de Lentejas Rojas con Pollo y Nabos",
+        "image": "https://img.spoonacular.com/recipes/715415-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 716406,
+        "title": "Sopa de Espárragos y Guisantes: Comida Real Conveniente",
+        "image": "https://img.spoonacular.com/recipes/716406-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 644387,
+        "title": "Col Rizada con Ajo",
+        "image": "https://img.spoonacular.com/recipes/644387-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 715446,
+        "title": "Estofado de Ternera en Olla de Cocción Lenta",
+        "image": "https://img.spoonacular.com/recipes/715446-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 782601,
+        "title": "Jambalaya de Frijoles Rojos",
+        "image": "https://img.spoonacular.com/recipes/782601-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 716426,
+        "title": "Coliflor, Arroz Integral y Arroz Frito de Verduras",
+        "image": "https://img.spoonacular.com/recipes/716426-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 716004,
+        "title": "Ensalada de Quinoa y Garbanzos con Tomates Secos y Cerezas Secas",
+        "image": "https://img.spoonacular.com/recipes/716004-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 716627,
+        "title": "Arroz y Frijoles Caseros Fáciles",
+        "image": "https://img.spoonacular.com/recipes/716627-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 664147,
+        "title": "Sopa Toscana de Frijoles Blancos con Aceite de Oliva y Romero",
+        "image": "https://img.spoonacular.com/recipes/664147-312x231.jpg",
+        "imageType": "jpg"
+      },
+      {
+        "id": 640941,
+        "title": "Guarnición Crujiente de Coles de Bruselas",
+        "image": "https://img.spoonacular.com/recipes/640941-312x231.jpg",
+        "imageType": "jpg"
       }
-      return recipes;
-    } else {
-      throw Exception('Error al cargar las recetas');
-    }
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> recipes = _getRecipes();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Inicio'),
       ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _fetchRecipes(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            final recipes = snapshot.data;
-            return ListView.builder(
-              itemCount: recipes?.length ?? 0,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Row(
-                    children: [
-                      Expanded(
-                        child: Text(recipes![index]['title']),
-                      ),
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage: NetworkImage(recipes[index]['image']),
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecipeDetailScreen(recipeId: recipes[index]['id']),
-                      ),
-                    );
-                  },
-                );
-              },
-            );
-          }
+      body: ListView.builder(
+        itemCount: recipes.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(recipes[index]['title']),
+                ),
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(recipes[index]['image']),
+                ),
+              ],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecipeDetailScreen(recipeId: recipes[index]['id'].toString()),
+                ),
+              );
+            },
+          );
         },
       ),
     );
