@@ -14,17 +14,17 @@ class _RecipeSearchScreenState extends State<RecipeSearchScreen> {
   TextEditingController _searchController = TextEditingController();
 
   Future<List<dynamic>> _searchRecipes(String query) async {
-    final response = await http.get(
-      Uri.parse('https://www.themealdb.com/api/json/v1/1/search.php?s=$query'),
-    );
+  final response = await http.get(
+    Uri.parse('https://www.themealdb.com/api/json/v1/1/search.php?s=$query'),
+  );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      return data['meals'];
-    } else {
-      throw Exception('Failed to search recipes');
-    }
+  if (response.statusCode == 200) {
+    final Map<String, dynamic> data = json.decode(response.body);
+    return data['meals'] ?? []; // Manejar el caso en que 'meals' sea nulo
+  } else {
+    throw Exception('Failed to search recipes');
   }
+}
 
   void _onSearchTextChanged(String query) {
     _searchRecipes(query).then((results) {
