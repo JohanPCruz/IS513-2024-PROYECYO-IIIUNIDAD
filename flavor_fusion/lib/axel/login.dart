@@ -105,6 +105,20 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 400,
+                  height: 400,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/Logo.PNG'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
               ElevatedButton(
                 onPressed: () => _signInWithGoogle(context),
                 child: const Text('Iniciar sesión con Google'),
